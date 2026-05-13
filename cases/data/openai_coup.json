@@ -5,22 +5,22 @@
   "scenarios": [
     {
       "name": "封闭场景（3名内部董事）",
-      "alternatives": ["A(罢免Altman)", "B(保留Altman但限制权力)", "C(维持现状)"],
+      "alternatives": ["A(罢免Altman)", "B(限制权力)", "C(维持现状)"],
       "voters": [
-        {"name": "Ilya(首席科学家)", "preference": ["A", "B", "C"]},
-        {"name": "商业化董事", "preference": ["C", "B", "A"]},
-        {"name": "独立董事", "preference": ["B", "C", "A"]}
+        {"name": "Ilya(首席科学家)", "preference": ["A(罢免Altman)", "B(限制权力)", "C(维持现状)"]},
+        {"name": "商业化董事", "preference": ["C(维持现状)", "B(限制权力)", "A(罢免Altman)"]},
+        {"name": "独立董事", "preference": ["B(限制权力)", "C(维持现状)", "A(罢免Altman)"]}
       ]
     },
     {
       "name": "开放场景（加入微软和员工）",
-      "alternatives": ["A(罢免Altman)", "B(保留Altman但限制权力)", "C(维持现状)"],
+      "alternatives": ["A(罢免Altman)", "B(限制权力)", "C(维持现状)"],
       "voters": [
-        {"name": "Ilya(首席科学家)", "preference": ["A", "B", "C"]},
-        {"name": "商业化董事", "preference": ["C", "B", "A"]},
-        {"name": "独立董事", "preference": ["B", "C", "A"]},
-        {"name": "微软", "preference": ["C", "B", "A"]},
-        {"name": "员工代表", "preference": ["C", "B", "A"]}
+        {"name": "Ilya(首席科学家)", "preference": ["A(罢免Altman)", "B(限制权力)", "C(维持现状)"]},
+        {"name": "商业化董事", "preference": ["C(维持现状)", "B(限制权力)", "A(罢免Altman)"]},
+        {"name": "独立董事", "preference": ["B(限制权力)", "C(维持现状)", "A(罢免Altman)"]},
+        {"name": "微软", "preference": ["C(维持现状)", "B(限制权力)", "A(罢免Altman)"]},
+        {"name": "员工代表", "preference": ["C(维持现状)", "B(限制权力)", "A(罢免Altman)"]}
       ]
     }
   ]

@@ -35,10 +35,17 @@ class Ballot:
         """Validate that all voters rank all alternatives consistently."""
         alt_set = set(self.alternatives)
         for v in self.voters:
-            if set(v.preference) != alt_set:
+            pref_set = set(v.preference)
+            if pref_set != alt_set:
+                missing = alt_set - pref_set
+                extra = pref_set - alt_set
+                detail = ""
+                if missing:
+                    detail += f" 缺少: {missing}"
+                if extra:
+                    detail += f" 多余: {extra}"
                 raise ValueError(
-                    f"Voter '{v.name}' preference {v.preference} "
-                    f"does not match alternatives {self.alternatives}"
+                    f"投票人 '{v.name}' 的偏好与方案不一致。{detail}"
                 )
 
 

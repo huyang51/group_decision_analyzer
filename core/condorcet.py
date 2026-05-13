@@ -23,13 +23,14 @@ def compute_pairwise_matrix(
             a, b = alts[i], alts[j]
             votes_a = sum(1 for v in ballot.voters if v.prefers(a, b))
             votes_b = ballot.num_voters - votes_a
+            key = (a, b) if a < b else (b, a)
             if votes_a >= votes_b:
-                matrix[(a, b)] = PairwiseResult(
+                matrix[key] = PairwiseResult(
                     winner=a, loser=b,
                     winner_votes=votes_a, loser_votes=votes_b,
                 )
             else:
-                matrix[(a, b)] = PairwiseResult(
+                matrix[key] = PairwiseResult(
                     winner=b, loser=a,
                     winner_votes=votes_b, loser_votes=votes_a,
                 )

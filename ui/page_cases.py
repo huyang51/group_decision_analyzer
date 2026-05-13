@@ -49,6 +49,12 @@ def render_page():
             voters = [Voter(name=v["name"], preference=v["preference"]) for v in voter_data]
             ballot = Ballot(voters=voters, alternatives=alternatives)
 
+            try:
+                ballot.validate()
+            except ValueError as e:
+                st.error(f"数据错误: {e}")
+                continue
+
             condorcet = compute_full_condorcet(ballot)
             borda = compute_borda_scores(ballot)
 
