@@ -95,4 +95,4 @@ def render_page():
     if "simulation_steps" in st.session_state and st.session_state["simulation_steps"]:
         st.subheader("推演时间线")
         fig = plot_simulation_results(st.session_state["simulation_steps"])
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")

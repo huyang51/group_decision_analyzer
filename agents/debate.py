@@ -5,10 +5,10 @@ from __future__ import annotations
 from typing import Dict, Generator, List, Optional
 
 from ..core.models import DebateRecord
-from .base_agent import BaseAgent
 from .analyst_agent import AnalystAgent
 from .critic_agent import CriticAgent
 from .narrative_agent import NarrativeAgent
+from .modeler_agent import ModelerAgent
 from .deliberation_agent import DeliberationAgent
 from .coordinator_agent import CoordinatorAgent
 
@@ -35,14 +35,14 @@ class DebateManager:
         analyst: Optional[AnalystAgent] = None,
         critic: Optional[CriticAgent] = None,
         narrative: Optional[NarrativeAgent] = None,
-        modeler=None,
+        modeler: Optional[ModelerAgent] = None,
         deliberation: Optional[DeliberationAgent] = None,
         coordinator: Optional[CoordinatorAgent] = None,
     ):
         self.analyst = analyst or AnalystAgent()
         self.critic = critic or CriticAgent()
         self.narrative = narrative or NarrativeAgent()
-        self.modeler = modeler
+        self.modeler = modeler or ModelerAgent()
         self.deliberation = deliberation or DeliberationAgent()
         self.coordinator = coordinator or CoordinatorAgent()
 
@@ -221,7 +221,7 @@ class DebateManager:
         for i, (agent_name, agent, prompt_template) in enumerate(agents_sequence, 1):
             prompt = prompt_template.replace("{context}", context_so_far) if "{context}" in prompt_template else prompt_template
             speech_text = agent.chat(DEBATE_SYSTEM_PROMPT, prompt, temperature=0.5, max_tokens=1200)
-            speech = {"agent": agent_name, "content": speech_text, "round": str(i), "is_final": str(i == len(agents_sequence))}
-            speeches.append({"agent": agent_name, "content": speech_text, "round": str(i)})
+            speech = {"agent": agent_name, "content": speech_text, "round": i, "is_final": i == len(agents_sequence)}
+            speeches.append({"agent": agent_name, "content": speech_text, "round": i})
             context_so_far += f"\n\n### {agent_name}发言\n{speech_text}"
             yield speech

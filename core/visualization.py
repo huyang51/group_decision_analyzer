@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Dict, List, Optional, Tuple
 
+import math
+
 import plotly.graph_objects as go
 import networkx as nx
 
@@ -166,7 +168,6 @@ def plot_cycle_diagram(
         x1, y1 = pos[edge[1]]
         # Shorten line to not overlap with node
         dx, dy = x1 - x0, y1 - y0
-        import math
         length = math.sqrt(dx**2 + dy**2) or 1
         shrink = 0.08
         ax = x1 - dx / length * shrink
@@ -205,6 +206,8 @@ def plot_cycle_diagram(
 
 def plot_simulation_results(steps: List[SimulationStep]) -> go.Figure:
     """Create a timeline showing how rankings change across simulation steps."""
+    from .borda import compute_borda_scores
+
     if not steps:
         return go.Figure()
 
@@ -220,7 +223,6 @@ def plot_simulation_results(steps: List[SimulationStep]) -> go.Figure:
         x_labels = []
         for s in steps:
             # Use Borda score as the metric
-            from .borda import compute_borda_scores
             borda = compute_borda_scores(s.ballot)
             y_values.append(borda.scores.get(alt, 0))
             x_labels.append(f"步骤{s.step_num}: {s.description}")

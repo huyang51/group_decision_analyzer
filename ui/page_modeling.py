@@ -38,7 +38,7 @@ def _build_custom_ballot() -> Ballot:
                 )
                 prefs.append(pref)
         # Validate uniqueness
-        if len(set(prefs)) == len(alts):
+        if len(set(prefs)) == num_alts:
             voters.append(Voter(name=name, preference=prefs))
         else:
             st.warning(f"{name} 的偏好包含重复方案，请检查。")
@@ -107,7 +107,7 @@ def render_page():
                 for rank, alt in enumerate(v.preference):
                     row[f"第{rank+1}偏好"] = alt
                 data.append(row)
-            st.dataframe(pd.DataFrame(data), use_container_width=True)
+            st.dataframe(pd.DataFrame(data), width="stretch")
 
     with tab_custom:
         ballot = _build_custom_ballot()
@@ -118,7 +118,7 @@ def render_page():
 
     # Analysis button
     st.divider()
-    if st.button("运行分析", type="primary", use_container_width=True):
+    if st.button("运行分析", type="primary", width="stretch"):
         if "ballot" in st.session_state:
             st.session_state["run_analysis"] = True
             st.success("分析参数已就绪，请前往「核心分析」页面查看结果。")

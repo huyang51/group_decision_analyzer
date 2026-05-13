@@ -104,7 +104,7 @@ def render_page():
         with col1:
             st.subheader("配对比较矩阵")
             fig_matrix = plot_pairwise_matrix(result.pairwise_matrix, ballot.alternatives)
-            st.plotly_chart(fig_matrix, use_container_width=True)
+            st.plotly_chart(fig_matrix, width="stretch")
 
         with col2:
             st.subheader("结果")
@@ -117,7 +117,7 @@ def render_page():
 
         st.subheader("优势关系图")
         fig_cycle = plot_cycle_diagram(result.dominance_edges, ballot.alternatives, result.cycle_path)
-        st.plotly_chart(fig_cycle, use_container_width=True)
+        st.plotly_chart(fig_cycle, width="stretch")
 
     # Tab 2: Borda/Copeland
     with tab2:
@@ -125,12 +125,12 @@ def render_page():
         with col1:
             st.subheader("Borda 计票")
             fig_borda = plot_borda_scores(result.borda)
-            st.plotly_chart(fig_borda, use_container_width=True)
+            st.plotly_chart(fig_borda, width="stretch")
 
         with col2:
             st.subheader("Copeland 计分")
             fig_copeland = plot_copeland_scores(result.copeland)
-            st.plotly_chart(fig_copeland, use_container_width=True)
+            st.plotly_chart(fig_copeland, width="stretch")
 
         # Ranking table
         st.subheader("综合排名")
@@ -144,7 +144,7 @@ def render_page():
                 "Copeland得分": result.copeland.scores[alt],
                 "Copeland排名": result.copeland.ranking.index(alt) + 1,
             })
-        st.dataframe(pd.DataFrame(ranking_data), use_container_width=True)
+        st.dataframe(pd.DataFrame(ranking_data), width="stretch")
 
     # Tab 3: Theory checks
     with tab3:
@@ -168,7 +168,7 @@ def render_page():
         st.subheader("群体思维诊断")
         diagnosis = diagnose_groupthink(st.session_state.get("scenario_desc", ""))
         fig_radar = plot_groupthink_radar(diagnosis)
-        st.plotly_chart(fig_radar, use_container_width=True)
+        st.plotly_chart(fig_radar, width="stretch")
         st.caption("注：此为模板诊断。结合场景描述和辩论结果可获得更精确的评估。")
 
         # Risk profiles
@@ -186,7 +186,7 @@ def render_page():
                 st.write(p.description)
 
         fig_risk = plot_risk_profiles(profiles)
-        st.plotly_chart(fig_risk, use_container_width=True)
+        st.plotly_chart(fig_risk, width="stretch")
 
     # Tab 4: Debate
     with tab4:
@@ -229,7 +229,7 @@ def render_page():
                     }
                     icon = icon_map.get(agent_name, "💬")
 
-                    with st.expander(f"{icon} 第{round_num}轮 — {agent_name}", expanded=(round_num == "1")):
+                    with st.expander(f"{icon} 第{round_num}轮 — {agent_name}", expanded=(round_num == 1)):
                         st.markdown(content)
 
                 st.divider()
