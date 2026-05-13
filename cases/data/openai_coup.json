@@ -1,0 +1,27 @@
+{
+  "name": "OpenAI政变事件",
+  "description": "2023年11月OpenAI董事会罢免CEO Sam Altman事件的决策分析。封闭场景：仅3名内部董事投票，偏好形成循环。开放场景：引入微软和员工代表后，形成明确的孔多塞赢家。",
+  "teaching_point": "投票规则和参与者结构决定了决策结果。同样的选项集，不同的投票人组合可以产生截然不同的结果——从循环到明确赢家。这体现了Arrow不可能定理中'无限制域'条件的重要性。",
+  "scenarios": [
+    {
+      "name": "封闭场景（3名内部董事）",
+      "alternatives": ["A(罢免Altman)", "B(保留Altman但限制权力)", "C(维持现状)"],
+      "voters": [
+        {"name": "Ilya(首席科学家)", "preference": ["A", "B", "C"]},
+        {"name": "商业化董事", "preference": ["C", "B", "A"]},
+        {"name": "独立董事", "preference": ["B", "C", "A"]}
+      ]
+    },
+    {
+      "name": "开放场景（加入微软和员工）",
+      "alternatives": ["A(罢免Altman)", "B(保留Altman但限制权力)", "C(维持现状)"],
+      "voters": [
+        {"name": "Ilya(首席科学家)", "preference": ["A", "B", "C"]},
+        {"name": "商业化董事", "preference": ["C", "B", "A"]},
+        {"name": "独立董事", "preference": ["B", "C", "A"]},
+        {"name": "微软", "preference": ["C", "B", "A"]},
+        {"name": "员工代表", "preference": ["C", "B", "A"]}
+      ]
+    }
+  ]
+}

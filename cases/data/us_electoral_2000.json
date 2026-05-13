@@ -1,0 +1,39 @@
+{
+  "name": "2000年美国大选",
+  "description": "2000年美国总统大选，佛罗里达州争议。Gore vs Bush vs Nader。Nader作为第三方候选人分流了部分Gore的选票，最终Bush以537票优势赢得佛罗里达，赢得选举。这是'搅局者效应'的经典案例。",
+  "teaching_point": "在多数制投票中，第三方候选人可能改变选举结果，即使他们本身无法获胜。这被称为'搅局者效应'(spoiler effect)，是推动排序投票(RCV)改革的核心论据。Arrow定理的IIA条件正是在说明：无关方案不应改变相关方案之间的比较结果。",
+  "scenarios": [
+    {
+      "name": "佛罗里达简化模型",
+      "alternatives": ["Bush(共和党)", "Gore(民主党)", "Nader(绿党)"],
+      "voters": [
+        {"name": "共和党选民1", "preference": ["Bush(共和党)", "Gore(民主党)", "Nader(绿党)"]},
+        {"name": "共和党选民2", "preference": ["Bush(共和党)", "Nader(绿党)", "Gore(民主党)"]},
+        {"name": "民主党选民1", "preference": ["Gore(民主党)", "Nader(绿党)", "Bush(共和党)"]},
+        {"name": "民主党选民2", "preference": ["Gore(民主党)", "Bush(共和党)", "Nader(绿党)"]},
+        {"name": "民主党选民3", "preference": ["Gore(民主党)", "Nader(绿党)", "Bush(共和党)"]},
+        {"name": "绿党选民1", "preference": ["Nader(绿党)", "Gore(民主党)", "Bush(共和党)"]},
+        {"name": "绿党选民2", "preference": ["Nader(绿党)", "Gore(民主党)", "Bush(共和党)"]},
+        {"name": "摇摆选民1", "preference": ["Gore(民主党)", "Bush(共和党)", "Nader(绿党)"]},
+        {"name": "摇摆选民2", "preference": ["Bush(共和党)", "Gore(民主党)", "Nader(绿党)"]},
+        {"name": "摇摆选民3", "preference": ["Gore(民主党)", "Nader(绿党)", "Bush(共和党)"]}
+      ]
+    },
+    {
+      "name": "无Nader（移除搅局者）",
+      "alternatives": ["Bush(共和党)", "Gore(民主党)"],
+      "voters": [
+        {"name": "共和党选民1", "preference": ["Bush(共和党)", "Gore(民主党)"]},
+        {"name": "共和党选民2", "preference": ["Bush(共和党)", "Gore(民主党)"]},
+        {"name": "民主党选民1", "preference": ["Gore(民主党)", "Bush(共和党)"]},
+        {"name": "民主党选民2", "preference": ["Gore(民主党)", "Bush(共和党)"]},
+        {"name": "民主党选民3", "preference": ["Gore(民主党)", "Bush(共和党)"]},
+        {"name": "绿党选民1", "preference": ["Gore(民主党)", "Bush(共和党)"]},
+        {"name": "绿党选民2", "preference": ["Gore(民主党)", "Bush(共和党)"]},
+        {"name": "摇摆选民1", "preference": ["Gore(民主党)", "Bush(共和党)"]},
+        {"name": "摇摆选民2", "preference": ["Bush(共和党)", "Gore(民主党)"]},
+        {"name": "摇摆选民3", "preference": ["Gore(民主党)", "Bush(共和党)"]}
+      ]
+    }
+  ]
+}

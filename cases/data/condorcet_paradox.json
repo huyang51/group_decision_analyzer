@@ -1,0 +1,26 @@
+{
+  "name": "孔多塞悖论",
+  "description": "经典投票悖论：3个投票人对3个方案的偏好形成循环。V1偏好A>B>C，V2偏好B>C>A，V3偏好C>A>B。两两对决中A击败B、B击败C、C击败A，形成岩纸剪刀式的循环，不存在孔多塞赢家。",
+  "teaching_point": "多数决不总是传递性的。即使每个个体的偏好是理性的，集体偏好也可能出现循环，这是民主决策的根本困境之一。",
+  "scenarios": [
+    {
+      "name": "基本循环",
+      "alternatives": ["A", "B", "C"],
+      "voters": [
+        {"name": "投票人1", "preference": ["A", "B", "C"]},
+        {"name": "投票人2", "preference": ["B", "C", "A"]},
+        {"name": "投票人3", "preference": ["C", "A", "B"]}
+      ]
+    },
+    {
+      "name": "打破循环（加入V4）",
+      "alternatives": ["A", "B", "C"],
+      "voters": [
+        {"name": "投票人1", "preference": ["A", "B", "C"]},
+        {"name": "投票人2", "preference": ["B", "C", "A"]},
+        {"name": "投票人3", "preference": ["C", "A", "B"]},
+        {"name": "投票人4", "preference": ["A", "B", "C"]}
+      ]
+    }
+  ]
+}
