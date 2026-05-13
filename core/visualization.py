@@ -5,8 +5,13 @@ from __future__ import annotations
 from typing import Dict, List, Optional, Tuple
 
 import plotly.graph_objects as go
-import plotly.express as px
 import networkx as nx
+
+# Built-in color palette (replaces plotly.express dependency)
+_COLORS = [
+    "#636EFA", "#EF553B", "#00CC96", "#AB63FA", "#FFA15A",
+    "#19D3F3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52",
+]
 
 from .models import PairwiseResult, BordaScores, SimulationStep, CopelandScores
 
@@ -62,7 +67,7 @@ def plot_borda_scores(borda: BordaScores) -> go.Figure:
     alts = borda.ranking
     scores = [borda.scores[a] for a in alts]
 
-    colors = px.colors.qualitative.Set2[:len(alts)]
+    colors = _COLORS[:len(alts)]
 
     fig = go.Figure(data=go.Bar(
         x=alts,
@@ -270,7 +275,7 @@ def plot_ahp_hierarchy(
         x=list(values),
         y=list(names),
         orientation="h",
-        marker_color=px.colors.qualitative.Set2[:len(names)],
+        marker_color=_COLORS[:len(names)],
         text=[f"{v:.3f}" for v in values],
         textposition="outside",
     ))

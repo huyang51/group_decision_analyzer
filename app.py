@@ -6,17 +6,22 @@ import os
 import sys
 from pathlib import Path
 
-# Add project root to path for imports
-project_root = Path(__file__).parent
-if str(project_root) not in sys.path:
-    sys.path.insert(0, str(project_root.parent))
+# Ensure both the package root and its parent are on sys.path.
+# This allows running from either:
+#   cd class_project && streamlit run group_decision_analyzer/app.py
+#   cd group_decision_analyzer && streamlit run app.py
+_here = Path(__file__).resolve().parent
+_parent = _here.parent
+for p in (str(_here), str(_parent)):
+    if p not in sys.path:
+        sys.path.insert(0, p)
 
 import streamlit as st
 
 # Load .env if available
 try:
     from dotenv import load_dotenv
-    load_dotenv(project_root / ".env")
+    load_dotenv(_here / ".env")
 except ImportError:
     pass
 
@@ -29,16 +34,27 @@ def main():
         initial_sidebar_state="expanded",
     )
 
-    # Import UI modules
-    from group_decision_analyzer.ui.sidebar import render_sidebar
-    from group_decision_analyzer.ui import (
-        page_modeling,
-        page_analysis,
-        page_simulation,
-        page_sensitivity,
-        page_cases,
-        page_theory,
-    )
+    # Import UI modules — try absolute (from parent dir) then direct (from inside)
+    try:
+        from group_decision_analyzer.ui.sidebar import render_sidebar
+        from group_decision_analyzer.ui import (
+            page_modeling,
+            page_analysis,
+            page_simulation,
+            page_sensitivity,
+            page_cases,
+            page_theory,
+        )
+    except ModuleNotFoundError:
+        from ui.sidebar import render_sidebar
+        from ui import (
+            page_modeling,
+            page_analysis,
+            page_simulation,
+            page_sensitivity,
+            page_cases,
+            page_theory,
+        )
 
     # Render sidebar and get selected page
     selected_page = render_sidebar()
