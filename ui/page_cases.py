@@ -5,7 +5,7 @@ from __future__ import annotations
 import streamlit as st
 
 from ..cases.case_library import CaseLibrary
-from ..core.models import Voter, Ballot
+from ..core.models import Voter, Ballot, DecisionMatrix
 from ..core.condorcet import compute_full_condorcet
 from ..core.borda import compute_borda_scores
 
@@ -43,11 +43,47 @@ def render_page():
             # Show preferences
             st.write("**偏好矩阵:**")
             for v in voter_data:
-                st.write(f"  {v['name']}: {' > '.join(v['preference'])}")
+                cw = v.get("criteria_weights")
+                weight_str = ""
+                if cw:
+                    weight_str = f"  [权重: {', '.join(f'{k}:{v}' for k, v in cw.items())}]"
+                st.write(f"  {v['name']}: {' > '.join(v['preference'])}{weight_str}")
 
             # Pre-compute results
-            voters = [Voter(name=v["name"], preference=v["preference"]) for v in voter_data]
+            voters = [Voter(name=v["name"], preference=v["preference"], criteria_weights=v.get("criteria_weights")) for v in voter_data]
             ballot = Ballot(voters=voters, alternatives=alternatives)
+
+            # Show decision matrix if available (per-voter)
+            criteria = scenario.get("criteria", [])
+            voter_score_matrices = {}
+            for v in voter_data:
+                sm = v.get("score_matrix")
+                if sm:
+                    voter_score_matrices[v["name"]] = sm
+            if criteria and voter_score_matrices:
+                st.write("**决策矩阵（方案×准则评分）:**")
+                import pandas as pd
+                voter_names = list(voter_score_matrices.keys())
+                selected_voter = st.selectbox(
+                    "查看投票人评分矩阵",
+                    voter_names + ["平均矩阵"],
+                    key=f"case_voter_matrix_{i}",
+                )
+                if selected_voter == "平均矩阵":
+                    import numpy as np
+                    display_matrix = {}
+                    for alt in alternatives:
+                        all_scores = [voter_score_matrices[vn][alt] for vn in voter_names]
+                        display_matrix[alt] = np.mean(all_scores, axis=0).tolist()
+                else:
+                    display_matrix = voter_score_matrices[selected_voter]
+                dm_data = []
+                for alt in alternatives:
+                    row = {"方案": alt}
+                    for j, crit in enumerate(criteria):
+                        row[crit] = display_matrix[alt][j]
+                    dm_data.append(row)
+                st.dataframe(pd.DataFrame(dm_data), width="stretch")
 
             try:
                 ballot.validate()
@@ -77,4 +113,10 @@ def render_page():
                 st.session_state["ballot"] = ballot
                 st.session_state["scenario_desc"] = case.get("description", "")
                 st.session_state["case_name"] = selected_name
+                # Store decision matrix if available (per-voter)
+                if criteria and voter_score_matrices:
+                    dm = DecisionMatrix(criteria=criteria, voter_score_matrices=voter_score_matrices, alternatives=alternatives)
+                    st.session_state["decision_matrix"] = dm
+                else:
+                    st.session_state.pop("decision_matrix", None)
                 st.success(f"已加载: {selected_name} — 场景 {i+1}")

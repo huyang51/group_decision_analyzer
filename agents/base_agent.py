@@ -47,16 +47,19 @@ class BaseAgent:
         if not self.is_available():
             raise RuntimeError("DeepSeek API key not configured. Set DEEPSEEK_API_KEY in .env")
 
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_message},
-            ],
-            temperature=temperature,
-            max_tokens=max_tokens,
-        )
-        return response.choices[0].message.content or ""
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_message},
+                ],
+                temperature=temperature,
+                max_tokens=max_tokens,
+            )
+            return response.choices[0].message.content or ""
+        except Exception as e:
+            raise RuntimeError(f"API调用失败: {e}") from e
 
     def chat_stream(
         self,
